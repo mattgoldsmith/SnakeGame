@@ -7,11 +7,11 @@ public class Gui {
     private JFrame frame;
     private JPanel panel;
     private HashMap<Point, JLabel> coords;
-    public Gui(){
+    public Gui() {
         //constructor
         frame = new JFrame("Snake");
         panel = new JPanel();
-        coords = new HashMap<Point, JLabel>();
+        coords = new HashMap<>();
 
         GridLayout gridLayout = new GridLayout(20,20);
         panel.setLayout(gridLayout);
@@ -38,7 +38,7 @@ public class Gui {
         panel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
         frame.add(panel);
-        frame.setDefaultLookAndFeelDecorated(true);
+        JFrame.setDefaultLookAndFeelDecorated(true);
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
@@ -55,5 +55,9 @@ public class Gui {
 
     public HashMap<Point, JLabel> getCoords() {
         return coords;
+    }
+
+    public int getSize() {
+        return coords.size();
     }
 }

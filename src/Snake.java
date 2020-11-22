@@ -1,16 +1,20 @@
 import java.awt.*;
-import java.util.HashMap;
+import java.util.ArrayList;
 
 public class Snake {
 
-    private HashMap <Integer, Point> snake;
+    private ArrayList <Point> snake;
     public Snake() {
-        //constructor
-        snake =  new HashMap<Integer, Point>();
-        snake.put(new Integer(1), new Point(10,10));
+        //constructors
+        snake =  new ArrayList<>();
+        snake.add(new Point(10,10));
     }
 
-    public HashMap<Integer, Point> getSnake() {
+    public ArrayList <Point> getSnake() {
         return snake;
+    }
+
+    public int getLength() {
+        return snake.size();
     }
 }
