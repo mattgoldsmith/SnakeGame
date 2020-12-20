@@ -181,15 +181,15 @@ public class Controller {
             Point end = body.get(body.size()-1);
             Point start = body.get(0);
             int xCoord;
-            int yCoord = start.y;
-            if(start.x + 1 > 20){
+            int yCoord = end.y;
+            if(end.x + 1 > 20){
                 xCoord = 1;
             }
             else {
-                xCoord = start.x + 1;
+                xCoord = end.x + 1;
             }
             newSnake.add( new Point(xCoord, yCoord) );
-            newSnake.remove(end);
+            newSnake.remove(start);
 
             return newSnake;
         }
@@ -206,15 +206,15 @@ public class Controller {
             Point end = body.get(body.size()-1);
             Point start = body.get(0);
             int xCoord;
-            int yCoord = start.y;
-            if(start.x - 1 < 1){
+            int yCoord = end.y;
+            if(end.x - 1 < 1){
                 xCoord = 20;
             }
             else {
-                xCoord = start.x - 1;
+                xCoord = end.x - 1;
             }
             newSnake.add( new Point(xCoord, yCoord) );
-            newSnake.remove(end);
+            newSnake.remove(start);
 
             return newSnake;
         }
@@ -230,16 +230,16 @@ public class Controller {
 
             Point end = body.get(body.size()-1);
             Point start = body.get(0);
-            int xCoord = start.x;
+            int xCoord = end.x;
             int yCoord;
-            if(start.y + 1 > 20){
+            if(end.y + 1 > 20){
                 yCoord = 1;
             }
             else {
-                yCoord = start.y + 1;
+                yCoord = end.y + 1;
             }
             newSnake.add( new Point(xCoord, yCoord) );
-            newSnake.remove(end);
+            newSnake.remove(start);
 
             return newSnake;
         }
@@ -255,16 +255,16 @@ public class Controller {
 
             Point end = body.get(body.size()-1);
             Point start = body.get(0);
-            int xCoord = start.x;
+            int xCoord = end.x;
             int yCoord;
-            if(start.y - 1 < 1){
+            if(end.y - 1 < 1){
                 yCoord = 20;
             }
             else {
-                yCoord = start.y - 1;
+                yCoord = end.y - 1;
             }
             newSnake.add( new Point(xCoord, yCoord) );
-            newSnake.remove(end);
+            newSnake.remove(start);
 
             return newSnake;
         }
@@ -284,6 +284,7 @@ public class Controller {
 
     private void checkEaten() {
         if(snake.getSnake().contains(food)) {
+            snake.getSnake().add(food);
             food = setFood();
         }
     }
