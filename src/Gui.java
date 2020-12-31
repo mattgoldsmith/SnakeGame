@@ -21,8 +21,8 @@ public class Gui {
         int x = 1;
         int y = 1;
         for (int i =1; i<=(20*20); i++){
-            final JLabel label = new JLabel("Label");
-            label.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+            final JLabel label = new JLabel();
+            //label.setBorder(BorderFactory.createLineBorder(Color.BLACK));
             Dimension dimension = new Dimension(30,30);
             label.setPreferredSize(dimension);
             label.setOpaque(true);

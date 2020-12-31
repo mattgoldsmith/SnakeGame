@@ -14,6 +14,7 @@ public class Controller {
     private String newDirection;
     private String oldDirection;
     private Point food;
+    private final boolean auto;
 
     public Controller() {
         //constructor
@@ -22,6 +23,9 @@ public class Controller {
         direction = "";
         newDirection = "";
         oldDirection = "";
+
+        //Set snake to auto play
+        auto = true;
 
         setKeyListeners();
         setSnake();
@@ -43,7 +47,7 @@ public class Controller {
                 // Add the snake to the grid
                 if (labelsKey.equals(bodyValue)) {
                     labelsValue.setBackground(Color.BLACK);
-                    labelsValue.setText("this");
+                    //labelsValue.setText("this");
                 }
             }
         }
@@ -130,6 +134,7 @@ public class Controller {
     private void move() {
         while(snake.getLength() < gui.getSize()) {
             ArrayList <Point> newSnake = snake.getSnake();
+            //TODO: Check if the snake overlaps itself
             switch (direction) {
                 case "down":
                     newSnake = moveDown();
@@ -147,6 +152,7 @@ public class Controller {
 
             checkEaten();
 
+            //TODO: Add border to the snake body
             for(HashMap.Entry<Point, JLabel> labelsEntry : gui.getCoords().entrySet()) {
                 Point labelsKey = labelsEntry.getKey();
                 JLabel labelsValue = labelsEntry.getValue();
@@ -162,14 +168,13 @@ public class Controller {
 
             }
             try {
-                TimeUnit.MILLISECONDS.sleep(500);
+                TimeUnit.MILLISECONDS.sleep(20);
             }
             catch(InterruptedException e){
                 //continue
             }
 
             changeDirection();
-
         }
     }
 
@@ -279,12 +284,44 @@ public class Controller {
             oldDirection = direction;
             // Change the direction once per move
             direction = newDirection;
+
+            if(auto){
+                auto();
+            }
+        }
+    }
+
+    private void auto() {
+        ArrayList<Point> body = snake.getSnake();
+        Point head = body.get(body.size()-1);
+        switch (head.x) {
+            case 20 :
+                if (direction.equals("right")) {
+                    newDirection = "up";
+                }
+                break;
+            case 19 :
+                if (direction.equals("down")) {
+                    newDirection = "right";
+                }
+                break;
+            case 2 :
+                if (direction.equals("up")) {
+                    newDirection = "right";
+                }
+                break;
+            case 1 :
+                if (direction.equals("right")) {
+                    newDirection = "down";
+                }
+                break;
         }
     }
 
     private void checkEaten() {
         if(snake.getSnake().contains(food)) {
-            snake.getSnake().add(food);
+            Point growth = snake.getSnake().get(0);
+            snake.getSnake().add(0, growth);
             food = setFood();
         }
     }
