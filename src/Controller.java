@@ -15,6 +15,7 @@ public class Controller {
     private String oldDirection;
     private Point food;
     private final boolean auto;
+    private boolean overlap;
 
     public Controller() {
         //constructor
@@ -25,11 +26,12 @@ public class Controller {
         oldDirection = "";
 
         //Set snake to auto play
-        auto = true;
+        auto = false;
 
         setKeyListeners();
         setSnake();
         food = setFood();
+        overlap = false;
         move();
     }
 
@@ -132,9 +134,9 @@ public class Controller {
     }
 
     private void move() {
-        while(snake.getLength() < gui.getSize()) {
+        while(snake.getLength() < gui.getSize() && !overlap) {
             ArrayList <Point> newSnake = snake.getSnake();
-            //TODO: Check if the snake overlaps itself
+            gui.getScore().setText(String.valueOf(newSnake.size()));
             switch (direction) {
                 case "down":
                     newSnake = moveDown();
@@ -162,13 +164,18 @@ public class Controller {
                  }
                  if(newSnake.contains(labelsKey)){
                      labelsValue.setOpaque(true);
-                     labelsValue.setBackground(Color.BLUE);
+                     if(overlap){
+                         labelsValue.setBackground(Color.RED);
+                     }
+                     else {
+                         labelsValue.setBackground(Color.BLUE);
+                     }
                  }
                  labelsValue.repaint();
 
             }
             try {
-                TimeUnit.MILLISECONDS.sleep(20);
+                TimeUnit.MILLISECONDS.sleep(200);
             }
             catch(InterruptedException e){
                 //continue
@@ -193,7 +200,9 @@ public class Controller {
             else {
                 xCoord = end.x + 1;
             }
-            newSnake.add( new Point(xCoord, yCoord) );
+            Point newMove = new Point(xCoord, yCoord);
+            checkOverlap(newMove);
+            newSnake.add(newMove);
             newSnake.remove(start);
 
             return newSnake;
@@ -218,7 +227,9 @@ public class Controller {
             else {
                 xCoord = end.x - 1;
             }
-            newSnake.add( new Point(xCoord, yCoord) );
+            Point newMove = new Point(xCoord, yCoord);
+            checkOverlap(newMove);
+            newSnake.add(newMove);
             newSnake.remove(start);
 
             return newSnake;
@@ -243,7 +254,9 @@ public class Controller {
             else {
                 yCoord = end.y + 1;
             }
-            newSnake.add( new Point(xCoord, yCoord) );
+            Point newMove = new Point(xCoord, yCoord);
+            checkOverlap(newMove);
+            newSnake.add(newMove);
             newSnake.remove(start);
 
             return newSnake;
@@ -268,7 +281,9 @@ public class Controller {
             else {
                 yCoord = end.y - 1;
             }
-            newSnake.add( new Point(xCoord, yCoord) );
+            Point newMove = new Point(xCoord, yCoord);
+            checkOverlap(newMove);
+            newSnake.add(newMove);
             newSnake.remove(start);
 
             return newSnake;
@@ -323,6 +338,12 @@ public class Controller {
             Point growth = snake.getSnake().get(0);
             snake.getSnake().add(0, growth);
             food = setFood();
+        }
+    }
+
+    private void checkOverlap(Point newMove) {
+        if (snake.getSnake().contains(newMove)) {
+            overlap = true;
         }
     }
 

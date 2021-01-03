@@ -6,6 +6,8 @@ public class Gui {
 
     private JFrame frame;
     private JPanel panel;
+    private JPanel score;
+    private JLabel scoreLabel;
     private HashMap<Point, JLabel> coords;
     public Gui() {
         //constructor
@@ -37,7 +39,15 @@ public class Gui {
         }
         panel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
-        frame.add(panel);
+        score = new JPanel();
+        score.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+
+        scoreLabel = new JLabel();
+        scoreLabel.setFont(new Font("Arial", Font.BOLD, 30));
+        score.add(scoreLabel);
+
+        frame.add(panel, BorderLayout.SOUTH);
+        frame.add(score, BorderLayout.NORTH);
         JFrame.setDefaultLookAndFeelDecorated(true);
         frame.pack();
         frame.setLocationRelativeTo(null);
@@ -51,6 +61,10 @@ public class Gui {
 
     public JPanel getPanel() {
         return panel;
+    }
+
+    public JLabel getScore() {
+        return scoreLabel;
     }
 
     public HashMap<Point, JLabel> getCoords() {
