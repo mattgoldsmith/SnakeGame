@@ -42,8 +42,12 @@ public class Gui {
         score = new JPanel();
         score.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
+        Dimension dimension = new Dimension(500,30);
+
         scoreLabel = new JLabel();
         scoreLabel.setFont(new Font("Arial", Font.BOLD, 30));
+        scoreLabel.setPreferredSize(dimension);
+        scoreLabel.setHorizontalAlignment(JLabel.CENTER);
         score.add(scoreLabel);
 
         frame.add(panel, BorderLayout.SOUTH);

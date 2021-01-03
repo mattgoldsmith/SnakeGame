@@ -87,6 +87,7 @@ public class Controller {
             if(labelsKey.equals(food)){
                 labelsValue.setOpaque(true);
                 labelsValue.setBackground(Color.GREEN);
+                labelsValue.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.BLACK));
                 labelsValue.repaint();
                 //gui.getFrame().pack();
                 break;
@@ -154,13 +155,13 @@ public class Controller {
 
             checkEaten();
 
-            //TODO: Add border to the snake body
             for(HashMap.Entry<Point, JLabel> labelsEntry : gui.getCoords().entrySet()) {
                 Point labelsKey = labelsEntry.getKey();
                 JLabel labelsValue = labelsEntry.getValue();
 
                  if(!labelsKey.equals(food)) {
                      labelsValue.setOpaque(false);
+                     labelsValue.setBorder(null);
                  }
                  if(newSnake.contains(labelsKey)){
                      labelsValue.setOpaque(true);
@@ -172,8 +173,10 @@ public class Controller {
                      }
                  }
                  labelsValue.repaint();
-
             }
+
+            setBorders();
+
             try {
                 TimeUnit.MILLISECONDS.sleep(200);
             }
@@ -344,6 +347,74 @@ public class Controller {
     private void checkOverlap(Point newMove) {
         if (snake.getSnake().contains(newMove)) {
             overlap = true;
+        }
+    }
+
+    private void setBorders() {
+        if(snake.getLength() > 1) {
+            Point head = snake.getSnake().get(0);
+            Point postHead = snake.getSnake().get(1);
+            Point tail = snake.getSnake().get(snake.getLength() - 1);
+            Point preTail = snake.getSnake().get(snake.getLength() - 2);
+            gui.getCoords().get(head).setBackground(Color.orange);
+            gui.getCoords().get(tail).setBackground(Color.orange);
+            gui.getCoords().get(postHead).setBackground(Color.MAGENTA);
+            gui.getCoords().get(preTail).setBackground(Color.MAGENTA);
+        }
+
+        Point prev = null;
+        for(int i = 0; snake.getLength() > i; i++){
+            Point bodyPart = snake.getSnake().get(i);
+            if(snake.getLength() == 1){
+                gui.getCoords().get(bodyPart).setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.BLACK));
+            }
+            else {
+                Point next;
+                if(i+1 < snake.getLength()) {
+                    next = snake.getSnake().get(i+1);
+                }
+                else {
+                    next = null;
+                }
+
+                int up = 1;
+                int down = 1;
+                int left = 1;
+                int right = 1;
+
+                if (prev != null) {
+                    if (prev.x < bodyPart.x) {
+                        up = 0;
+                    }
+                    if (prev.x > bodyPart.x) {
+                        down = 0;
+                    }
+                    if (prev.y < bodyPart.y) {
+                        left = 0;
+                    }
+                    if (prev.y > bodyPart.y) {
+                        right = 0;
+                    }
+                }
+
+                if(next != null) {
+                    if (next.x < bodyPart.x) {
+                        up = 0;
+                    }
+                    if (next.x > bodyPart.x) {
+                        down = 0;
+                    }
+                    if (next.y < bodyPart.y) {
+                        left = 0;
+                    }
+                    if (next.y > bodyPart.y) {
+                        right = 0;
+                    }
+                }
+
+                gui.getCoords().get(bodyPart).setBorder(BorderFactory.createMatteBorder(up, left, down, right, Color.BLACK));
+            }
+            prev = bodyPart;
         }
     }
 
